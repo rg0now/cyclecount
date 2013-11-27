@@ -1,0 +1,9 @@
+Instructions for Linux driver
+
+To install the Linux driver under Linux - 32 or 64 bit -
+make and install the driver according to the following commands.
+Must reinstall after reboot.
+The driver has been tested in Fedora 19.
+
+make
+sudo ./install.sh

@@ -1,0 +1,6 @@
+# Contains sources to compile
+# One file per line
+#
+# Example:
+# somedir/test.c
+# example.cpp

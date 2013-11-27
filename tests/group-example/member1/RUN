@@ -1,0 +1,5 @@
+# Contains commmands to run before compilation
+# One command per line
+#
+# Example:
+# make

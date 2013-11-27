@@ -1,0 +1,5 @@
+/* Optional macro. The program will divide result with this value. */
+#define LOOP_COUNT 1000
+
+int loop_i;
+int apple, banana;

@@ -1,0 +1,10 @@
+/* Optional macro. The program will divide result with this value. */
+#define LOOP_COUNT 1000
+
+/* Optional special macro
+   32 pieces of test will run with BITS set to 0, 1, ... 31
+   Last parameter is the name to display */
+#interval BITS 0 7 "Bits"
+
+int loop_i, loop_i2;
+int apple, banana;

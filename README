@@ -1,0 +1,33 @@
+cyclecount
+==========
+Measures and compares execution time of code snippets at clock cycle level
+
+You need Python 2 to compile, run and clean. 
+Gnuplot is optional but handy to display the results and to convert to an image.
+
+To compile all:
+./make.py
+
+To compile two tests: "single-example" and "group-example":
+./make.py single-example group-example
+
+To run:
+./run.py
+
+To run two tests: "single-example" and "group-example":
+./run.py single-example compare-example
+
+To clean:
+./clean.py
+
+After run check the results' directory:
+results/single-example/
+results/group-example/
+
+Written by Andras Majdan
+License: GNU General Public License Version 3
+Report bugs to <majdan.andras@gmail.com>
+
+Contains benchmarking code written by Agner Fog.
+License: GNU General Public License
+Do not report bugs to him because I've modified his program.

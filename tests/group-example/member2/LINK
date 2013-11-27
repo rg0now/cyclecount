@@ -1,0 +1,8 @@
+# Contains which libs or objects have to be linked
+# One lib or object per line
+#
+# Example:
+# m
+# pthread
+# mylib
+# myobject.o
