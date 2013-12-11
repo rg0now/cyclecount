@@ -1,0 +1,11 @@
+*
+!.gitignore
+!install.sh
+!Makefile
+!modules.order
+!Module.symvers
+!MSRDriver.h
+!MSRdrv.c
+!MSRdrvL.h
+!README
+!uninstall.sh

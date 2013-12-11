@@ -1,3 +1,12 @@
+Version 1.0.1:
+==============
+
+2013-12-11  Andras Majdan	<majdan.andras@gmail.com>
+
+    * Added -O2 optimization
+    * Added -DSTDC_LIMIT_MACROS
+    * Added interval macro as -D parameter
+    
 Version 1.0.0:
 ==============
 

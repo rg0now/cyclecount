@@ -110,7 +110,7 @@ def make_singletests(testname, testdir, testuserdata, tmpdir,
 		incdirs, srcfiles, libfiles, ofiles,
 		loop_count, ivid, ivstart, ivend, ivname):
 	
-	cmd = 'g++ -lpthread -I "' + testdir + '" -I "kerneldrv" -I "bench" "bench/PMCTestA.cpp" "bench/PMCTestB.cpp" "bench/quickselect.c"' 
+	cmd = 'g++ -O2 -D__STDC_LIMIT_MACROS -lpthread -I "' + testdir + '" -I "kerneldrv" -I "bench" "bench/PMCTestA.cpp" "bench/PMCTestB.cpp" "bench/quickselect.c"' 
 	
 	if incdirs:
 		for dire in incdirs:
@@ -139,7 +139,7 @@ def make_singletests(testname, testdir, testuserdata, tmpdir,
 			testuserdatai = tmpdiri + '/test-userdata.h'
 			copy_and_parse_header(testuserdata, testuserdatai, testname,
 				loop_count, ivid, i, ivname)
-			ncmd = cmd + ' -I "' + tmpdiri + '" -o "' + tmpdiri + '/testcode"'
+			ncmd = cmd + ' -D' + ivid + '=' + str(i) + ' -I "' + tmpdiri + '" -o "' + tmpdiri + '/testcode"'
 			ret += do_cmd(ncmd)
 	else:
 		testuserdatai = tmpdir + '/test-userdata.h'
