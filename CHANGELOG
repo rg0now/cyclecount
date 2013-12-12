@@ -1,3 +1,10 @@
+Version 1.0.2:
+==============
+
+2013-12-12  Andras Majdan	<majdan.andras@gmail.com>
+
+    * FIX: XML to gnuplot bugs
+
 Version 1.0.1:
 ==============
 
