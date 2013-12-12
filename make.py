@@ -6,7 +6,7 @@ Written by Andras Majdan
 License: GNU General Public License Version 3
 """
 
-import subprocess, os, sys, shutil
+import sys, subprocess, tempfile, os, sys, shutil
 
 # Functions
 
@@ -79,6 +79,7 @@ def get_macros_from_header(testuserdata):
 def copy_and_parse_header(src, dst, testname, loop_count, 
 	ivid=None, i=None, ivname=None):
 	
+	global_defs = ""
 	with open(dst, 'w') as hout, open(src, 'r') as hin:
 		for line in hin:
 			if line.startswith('#interval'):
@@ -90,15 +91,25 @@ def copy_and_parse_header(src, dst, testname, loop_count,
 					print 'ERROR: unexpected #interval'
 					exit(1)
 			else:
+				if line.startswith('#define '):
+					tokens = line.rstrip('\n').split(' ')
+					if len(tokens) > 2:
+						global_defs += ' -D' + tokens[1] + '=' + tokens[2]
+					else:
+						global_defs += ' -D' + tokens[1]
 				hout.write(line)
+				
 		names = testname.split('/')
 		if len(names) > 1:
 			hout.write('#define TEST_GROUP "' + names[0] + '"\n');
 			hout.write('#define TEST_NAME "' + names[1] + '"\n');
 		else:
 			hout.write('#define TEST_NAME "' + testname + '"\n');
+		return global_defs
 		
 def do_cmd(cmd):
+	sys.stdout.write(".")
+	sys.stdout.flush()
 	try:
 		output = subprocess.check_output(cmd, shell=True)
 		return True
@@ -109,7 +120,6 @@ def do_cmd(cmd):
 def make_singletests(testname, testdir, testuserdata, tmpdir, 
 		incdirs, srcfiles, libfiles, ofiles,
 		loop_count, ivid, ivstart, ivend, ivname):
-	
 	cmd = 'g++ -O2 -D__STDC_LIMIT_MACROS -lpthread -I "' + testdir + '" -I "kerneldrv" -I "bench" "bench/PMCTestA.cpp" "bench/PMCTestB.cpp" "bench/quickselect.c"' 
 	
 	if incdirs:
@@ -130,6 +140,9 @@ def make_singletests(testname, testdir, testuserdata, tmpdir,
 	
 	ret = 0
 	
+	sys.stdout.write("Building ")
+	sys.stdout.flush()
+	
 	if ivid:
 		for i in range(ivstart, ivend+1):
 			tmpdiri = tmpdir + '/' + str(i)
@@ -137,17 +150,18 @@ def make_singletests(testname, testdir, testuserdata, tmpdir,
 				os.makedirs(tmpdiri)
 			
 			testuserdatai = tmpdiri + '/test-userdata.h'
-			copy_and_parse_header(testuserdata, testuserdatai, testname,
+			global_defs = copy_and_parse_header(testuserdata, testuserdatai, testname,
 				loop_count, ivid, i, ivname)
-			ncmd = cmd + ' -D' + ivid + '=' + str(i) + ' -I "' + tmpdiri + '" -o "' + tmpdiri + '/testcode"'
+			ncmd = cmd + global_defs + ' -D' + ivid + '=' + str(i) + ' -I "' + tmpdiri + '" -o "' + tmpdiri + '/testcode"'
 			ret += do_cmd(ncmd)
 	else:
 		testuserdatai = tmpdir + '/test-userdata.h'
-		copy_and_parse_header(testuserdata, testuserdatai, testname, 
+		global_defs = copy_and_parse_header(testuserdata, testuserdatai, testname, 
 			loop_count)
-		ncmd = cmd + ' -I "' + tmpdir + '" -o "' + tmpdir + '/testcode"'
+		ncmd = cmd + global_defs + ' -I "' + tmpdir + '" -o "' + tmpdir + '/testcode"'
 		ret += do_cmd(ncmd)
 		
+	print("")
 	return ret
 	
 
@@ -170,6 +184,7 @@ def build_singletest(testdir, testname):
 	incdirs = []
 	incfile = testdir + '/INCLUDE'
 	if os.path.exists(incfile):
+		print 'Including test defined includes..'
 		with open(incfile, 'r') as handle:
 			for line in handle:
 				if not line.startswith('#'):
@@ -179,6 +194,7 @@ def build_singletest(testdir, testname):
 	srcfiles = []
 	srcfile = testdir + '/SOURCE'
 	if os.path.exists(srcfile):
+		print 'Appending test defined sources..'
 		with open(srcfile, 'r') as handle:
 			for line in handle:
 				if not line.startswith('#'):
@@ -189,6 +205,7 @@ def build_singletest(testdir, testname):
 	ofiles = []
 	linkfile = testdir + '/LINK'
 	if os.path.exists(linkfile):
+		print 'Appending test defined libraries..'
 		with open(linkfile, 'r') as handle:
 			for line in handle:
 				if not line.startswith('#'):
