@@ -128,7 +128,11 @@ def make_singletests(testname, testdir, testuserdata, tmpdir,
 	
 	if libfiles:
 		for libe in libfiles:
-			cmd += ' -l' + libe
+			if '/' in libe:
+				sres = libe.rsplit('/', 1);
+				cmd += ' -L' + sres[0] + ' -l' + sres[1] 
+			else:	
+				cmd += ' -l' + libe
 	
 	if ofiles:
 		for ofilee in ofiles:
@@ -176,7 +180,7 @@ def build_singletest(testdir, testname):
 				if not line.startswith('#'):
 					if len(line) > 0:
 						line = line.rstrip()
-						ret = subprocess.call(line.split(), cwd=testdir)
+						ret = subprocess.call(line.split())
 						if ret:
 							print 'ERROR: a test defined task failed'
 							exit(1)

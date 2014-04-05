@@ -1,3 +1,12 @@
+Version 1.0.3:
+==============
+
+2014-04-05  Andras Majdan	<majdan.andras@gmail.com>
+
+    * FIX: Run commands from RUN file in current working directory
+           instead of test directory
+    * Path can be given for a library in LINK file
+
 Version 1.0.2:
 ==============
 
