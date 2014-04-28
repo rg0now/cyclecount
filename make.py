@@ -177,8 +177,8 @@ def build_singletest(testdir, testname):
 		print 'Starting test defined tasks..'
 		with open(runfile, 'r') as handle:
 			for line in handle:
-				if not line.startswith('#'):
-					if len(line) > 0:
+				if line.strip():
+					if not line.startswith('#'):
 						line = line.rstrip()
 						ret = subprocess.call(line.split())
 						if ret:
@@ -191,8 +191,8 @@ def build_singletest(testdir, testname):
 		print 'Including test defined includes..'
 		with open(incfile, 'r') as handle:
 			for line in handle:
-				if not line.startswith('#'):
-					if len(line) > 0:
+				if line.strip():
+					if not line.startswith('#'):
 						incdirs.append(line.rstrip())
 						
 	srcfiles = []
@@ -201,8 +201,8 @@ def build_singletest(testdir, testname):
 		print 'Appending test defined sources..'
 		with open(srcfile, 'r') as handle:
 			for line in handle:
-				if not line.startswith('#'):
-					if len(line) > 0:
+				if line.strip():
+					if not line.startswith('#'):
 						srcfiles.append(line.rstrip())
 						
 	libfiles = []
@@ -212,8 +212,8 @@ def build_singletest(testdir, testname):
 		print 'Appending test defined libraries..'
 		with open(linkfile, 'r') as handle:
 			for line in handle:
-				if not line.startswith('#'):
-					if len(line) > 0:
+				if line.strip():
+					if not line.startswith('#'):
 						line = line.rstrip()
 						if line.endswith('.o'):
 							ofiles.append(line)
