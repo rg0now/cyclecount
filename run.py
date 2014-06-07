@@ -46,7 +46,8 @@ def do_run(cmd, pnode):
 		return 1
 
 def run_singletest(testname, pnode):
-	print 'Running ' + testname + '..'
+	sys.stdout.write("Running " + testname + " ")
+	sys.stdout.flush()
 	
 	testpath = 'tmp/tests/' + testname;
 	testcode = testpath + '/testcode'
@@ -62,6 +63,8 @@ def run_singletest(testname, pnode):
 			return 1
 	else:
 		for dire in os.listdir(testpath):
+			sys.stdout.write(".")
+			sys.stdout.flush()
 			cnode = ET.SubElement(pnode, 'interval')
 			cnode.set('value', dire)
 			testcode = testpath + '/' + dire + '/testcode'
@@ -69,7 +72,8 @@ def run_singletest(testname, pnode):
 			if ret:
 				print 'ERROR: Runtime error while running ' + testcode
 				return 1
-	
+				
+	print("")
 	return 0
 	
 def run_grouptest(testname, groupdirs, root):
