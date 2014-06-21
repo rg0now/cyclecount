@@ -120,7 +120,7 @@ def do_cmd(cmd):
 def make_singletests(testname, testdir, testuserdata, tmpdir, 
 		incdirs, srcfiles, libfiles, ofiles,
 		loop_count, ivid, ivstart, ivend, ivname):
-	cmd = 'g++ -O2 -D__STDC_LIMIT_MACROS -lpthread -I "' + testdir + '" -I "kerneldrv" -I "bench" "bench/PMCTestA.cpp" "bench/PMCTestB.cpp" "bench/quickselect.c"' 
+	cmd = 'g++ -g -O2 -D__STDC_LIMIT_MACROS -lpthread -I "' + testdir + '" -I "kerneldrv" -I "bench" "bench/PMCTestA.cpp" "bench/PMCTestB.cpp" "bench/quickselect.c"' 
 	
 	if incdirs:
 		for dire in incdirs:

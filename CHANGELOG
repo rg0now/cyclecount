@@ -1,4 +1,13 @@
+Version 1.0.6:
+==============
+
+2014-06-21  Andras Majdan	<majdan.andras@gmail.com>
+
+    * Added "nothing" and fixed a typo in README
+    * Added a new special test "nothing"
+
 Version 1.0.5:
+==============
 
 2014-06-07  Andras Majdan	<majdan.andras@gmail.com>
 

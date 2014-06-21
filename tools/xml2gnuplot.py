@@ -151,22 +151,32 @@ with open(plotdata, 'w') as hdata:
 		key_num = 1
 		xlabel = ""
 		hdata.write("\t" + title + "\n")
+		if "nothing" in datadict:
+			substractit = int(datadict["nothing"])
+		else:
+			substractit = 0
 		for key1 in sorted(datadict.iterkeys()):
-			hdata.write(str(key1) + "\t" + str(datadict[key1] + "\n"))
-			key_num += 1
+			if not key1 == "nothing":
+				hdata.write(str(key1) + "\t" + str(int(datadict[key1])-substractit) + "\n")
+				key_num += 1
 	else:
+		subtractit = {}
 		for key1 in sorted(datadict.iterkeys()):
 			if group:
-				val_curnum = 0
-				key_num += 1
-				hdata.write("\t" + key1)
-				for key2 in sorted(datadict[key1].iterkeys(), key=int):
-					if key2 not in newdict.keys():
-						newdict[key2] = {}
-					newdict[key2].update( { key1 : datadict[key1][key2] } )
-					val_curnum += 1
-					if val_curnum > val_maxnum:
-						val_maxnum = val_curnum
+				if not key1 == "nothing":
+					val_curnum = 0
+					key_num += 1
+					hdata.write("\t" + key1)
+					for key2 in sorted(datadict[key1].iterkeys(), key=int):
+						if key2 not in newdict.keys():
+							newdict[key2] = {}
+						newdict[key2].update( { key1 : datadict[key1][key2] } )
+						val_curnum += 1
+						if val_curnum > val_maxnum:
+							val_maxnum = val_curnum
+				else:
+					for key2 in sorted(datadict[key1].iterkeys(), key=int):
+						subtractit[key2] = datadict[key1][key2]
 			else:
 				key_num = 1
 				val_maxnum += 1
@@ -178,11 +188,15 @@ with open(plotdata, 'w') as hdata:
 			hdata.write(str(key1))
 			if group:
 				for key2 in sorted(datadict.iterkeys()):
-					hdata.write("\t")
-					if key2 not in newdict[key1].keys():
-						hdata.write("-")
-					else:
-						hdata.write(str(newdict[key1][key2]))
+					if not key2 == "nothing":
+						hdata.write("\t")
+						if key2 not in newdict[key1].keys():
+							hdata.write("-")
+						else:
+							if key1 in subtractit:
+								hdata.write(str(int(newdict[key1][key2])-int(subtractit[key1])))
+							else:
+								hdata.write(str(newdict[key1][key2]))
 			else:
 				hdata.write("\t" + str(newdict[key1]))
 			hdata.write("\n")

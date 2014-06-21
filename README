@@ -15,7 +15,7 @@ To run:
 ./run.py
 
 To run two tests: "single-example" and "group-example":
-./run.py single-example compare-example
+./run.py single-example group-example
 
 To clean:
 ./clean.py
@@ -23,6 +23,9 @@ To clean:
 After run check the results' directory:
 results/single-example/
 results/group-example/
+
+If you create a test with name "nothing", its result will be substracted from
+the group's results.
 
 Written by Andras Majdan
 License: GNU General Public License Version 3
